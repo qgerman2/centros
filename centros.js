@@ -181,7 +181,7 @@ function centrosATabla() {
 }
 
 function setup() {
-	createCanvas(1024, 769).position(0, 50);
+	createCanvas(1024, 769).position(0, 45);
 	background(0);
 	textAlign(CENTER);
 	frameRate(30);
@@ -193,7 +193,7 @@ function setup() {
 	]
 	//botones
 	botonVista = createButton("Mover vista")
-	botonMover = createButton("Editar centro")
+	botonMover = createButton("Mover centro")
 	botonCentro = createButton("Nuevo centro");
 	botonCentroInfinito = createButton("Nuevo centro en el infinito");
 	botonBorrar = createButton("Borrar centro")
@@ -238,20 +238,21 @@ function setup() {
 	tempInput = createInput();
 	tempInput.elt.size = 2;
 	tempInput.elt.style = "display: none";
+
+	img = loadImage("ejemplo.png")
 }
 
 function imagen(file) {
 	print(file);
 	if (file.type === 'image') {
-		img = createImg(file.data, '');
-		img.hide();
+		img = loadImage(file.data);
 	} else {
 		img = null;
 	}
 }
 
 function draw() {
-	background(255);
+	clear();
 	translate(camaraX, camaraY)
 	if (tempMoviendo != false) {
 		if (tempMoviendoAngulo) {
@@ -263,6 +264,10 @@ function draw() {
 			tempMoviendo[1] = mouseY - camaraY - tempMoviendoY;
 		}
 		actualizarPasos();
+	}
+	if (img) {
+		tint(255, 255, 255, 50);
+		image(img, 512 - img.width / 2, 384 - img.height / 2);
 	}
 	centros.forEach(e => {
 		if (e[4] == -1) {
@@ -359,7 +364,7 @@ function draw() {
 }
 
 function mouseClicked() {
-	if (mouseY < 0) {return false};
+	if (mouseY < 0) {return true};
 	if (herramienta == 1) {
 		nuevoCentro1();
 	}
@@ -467,7 +472,7 @@ function nuevoCentro1() {
 	tempCentroX = mouseX - camaraX;
 	tempCentroY = mouseY - camaraY;
 	tempInput.elt.style = "display: block";
-	tempInput.position(mouseX, mouseY + 20);
+	tempInput.position(mouseX, mouseY + 10);
 	tempInput.elt.focus();
 }
 
