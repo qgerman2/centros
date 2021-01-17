@@ -196,11 +196,12 @@ function anotar(t) {
 }
 
 function setup() {
-	createCanvas(1024, 769).position(0, 45);
+	canvas = createCanvas(1024, 768);
 	background(0);
 	textAlign(CENTER);
 	frameRate(15);
-	detalles = createDiv("hola");
+	detalles = createDiv("Aqui aparecera como se obtuvo cada centro"
+		+"<p>Puedes cargar una imagen para realizar el ejercicio sobre esta</p>");
 	detalles.position(1024, 200)
 	detalles.style("border", "thin solid #000000")
 	detalles.style("width", "380px")
@@ -233,6 +234,7 @@ function setup() {
 	botonPasoMenos.position(50, botonVista.height);
 	botonPasoMas.position(100, botonVista.height);
 	botonCargar.position(270, botonVista.height)
+	canvas.position(0, botonCargar.y + botonCargar.height)
 	//cambiar herramienta con botones
 	botonVista.mouseClicked(function() {herramienta = 5; resetTemp(); cursor("grab"); return false})
 	botonMover.mouseClicked(function() {herramienta = 0; resetTemp();  return false})
@@ -492,7 +494,7 @@ function nuevoCentro1() {
 	tempCentroX = mouseX - camaraX;
 	tempCentroY = mouseY - camaraY;
 	tempInput.elt.style = "display: block";
-	tempInput.position(mouseX, mouseY + 10);
+	tempInput.position(mouseX, mouseY + botonCargar.y + botonCargar.height);
 	tempInput.elt.focus();
 }
 
@@ -506,7 +508,7 @@ function nuevoCentroInfinito2() {
 	herramienta = 4;
 	tempAngulo = -Math.atan2(tempCentroY - mouseY + camaraY, tempCentroX - mouseX + camaraX) + Math.PI;
 	tempInput.elt.style = "display: block";
-	tempInput.position(mouseX, mouseY);
+	tempInput.position(mouseX, mouseY + botonCargar.y + botonCargar.height);
 	tempInput.elt.focus();
 }
 
