@@ -16,6 +16,12 @@ function encontrar(t) {
 			}
 			if (origen.length >= 2) {
 				nuevos.push([y1, y2, origen]);
+				anotar("Encontrado O" + (y1 + 1).toString() + (y2 + 1).toString())
+				origen.forEach(e => {
+					anotar("<br>" + "O" + (y1 + 1).toString() + (e + 1).toString())
+					anotar(" + " + "O" + (y2 + 1).toString() + (e + 1).toString())
+				})
+				anotar("<br>")
 			}
 		}
 	}
@@ -60,7 +66,10 @@ let mouseYPrevio = 0;
 let botonCargar;
 let img;
 
+let detalles;
+
 function actualizarPasos() {
+	detalles.elt.innerHTML = "";
 	lineas = [];
 	nuevoscentros = [];
 	encontrarNuevosCentros();
@@ -68,14 +77,15 @@ function actualizarPasos() {
 
 function encontrarNuevosCentros() {
 	let t = centrosATabla();
+	anotar("<b>Paso 1</b><br>")
 	let r = encontrar(t);
 	let paso = 1;
 	while (r[1].length > 0) {
-		if (paso > pasos) {
-			break
+		if (paso <= pasos) {
+			dibujarNuevosCentros(r[1], paso);
 		}
-		dibujarNuevosCentros(r[1], paso);
 		t = r[0];
+		anotar("<br><b>Paso " + (paso + 1) + "</b><br>")
 		r = encontrar(t);
 		paso++;
 	}
@@ -180,12 +190,22 @@ function centrosATabla() {
 	return tabla;
 }
 
+function anotar(t) {
+	let a = detalles.elt.innerHTML;
+	detalles.elt.innerHTML = a + t
+}
+
 function setup() {
 	createCanvas(1024, 769).position(0, 45);
 	background(0);
 	textAlign(CENTER);
-	frameRate(30);
-
+	frameRate(15);
+	detalles = createDiv("hola");
+	detalles.position(1024, 200)
+	detalles.style("border", "thin solid #000000")
+	detalles.style("width", "380px")
+	detalles.style("height", "613px")
+	detalles.style("overflow", "scroll")
 	colores = [
 		color(0,0,255),
 		color("magenta"),
