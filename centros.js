@@ -82,6 +82,8 @@ let img;
 
 let detalles;
 
+let canvas;
+
 function actualizarPasos() {
 	detalles.elt.innerHTML = "";
 	lineas = [];
@@ -214,7 +216,7 @@ function setup() {
 	frameRate(15);
 	detalles = createDiv("Aqui aparecera como se obtuvo cada centro"
 		+"<p>Puedes cargar una imagen para realizar el ejercicio sobre esta</p>");
-	detalles.position(1024, 200)
+	detalles.position(1040, 200)
 	detalles.style("border", "thin solid #000000")
 	detalles.style("width", "380px")
 	detalles.style("height", "613px")
@@ -275,6 +277,10 @@ function setup() {
 	tempInput.elt.style = "display: none";
 
 	img = loadImage("ejemplo.png")
+
+	canvas.mousePressed(cMousePressed);
+	canvas.mouseClicked(cMouseClicked);
+	canvas.mouseReleased(cMouseReleased);
 }
 
 function imagen(file) {
@@ -400,7 +406,7 @@ function draw() {
 	mouseYPrevio = mouseY;
 }
 
-function mouseClicked() {
+function cMouseClicked() {
 	if (mouseY < 0) {return true};
 	if (herramienta == 1) {
 		nuevoCentro1();
@@ -411,7 +417,7 @@ function mouseClicked() {
 	return false;
 }
 
-function mousePressed() {
+function cMousePressed() {
 	if (mouseY < 0) {return false};
 	if (herramienta == 2) {
 		nuevoCentroInfinito1();
@@ -422,7 +428,7 @@ function mousePressed() {
 	return false;
 }
 
-function mouseReleased() {
+function cMouseReleased() {
 	if (herramienta == 6) {
 		nuevoCentroInfinito2();
 	}
