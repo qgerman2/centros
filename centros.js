@@ -1,7 +1,11 @@
 //ojo esta bien feo el codigo
 
-function encontrar(t) {
+function encontrar(t, p) {
 	let nuevos = [];
+	let c = "black";
+	if (colores[p] != undefined) {
+		c = colores[p].toString();
+	}
 	tamano = t.length
 	for (y1 = 0; y1 < tamano; y1++) {
 		for (y2 = y1 + 1; y2 < tamano; y2++) {
@@ -16,10 +20,20 @@ function encontrar(t) {
 			}
 			if (origen.length >= 2) {
 				nuevos.push([y1, y2, origen]);
-				anotar("Encontrado O" + (y1 + 1).toString() + (y2 + 1).toString())
+				anotar("Encontrado <span style='color:" + c + ";'>O" + (y1 + 1).toString() + (y2 + 1).toString() + "</span>")
 				origen.forEach(e => {
-					anotar("<br>" + "O" + (y1 + 1).toString() + (e + 1).toString())
-					anotar(" + " + "O" + (y2 + 1).toString() + (e + 1).toString())
+					let c1 = "black";
+					let k1 = encontrarCentro(y1 + 1, e + 1);
+					if (k1[5] != undefined) {
+						c1 = colores[k1[5] - 1].toString();
+					}
+					anotar("<br>" + "<span style='color:" + c1 + "';>O" + (y1 + 1).toString() + (e + 1).toString() + "</span>")
+					let c2 = "black";
+					let k2 = encontrarCentro(y2 + 1, e + 1);
+					if (k2[5] != undefined) {
+						c2 = colores[k2[5] - 1].toString();
+					}
+					anotar(" +<span style='color:" + c2 + ";'>" + "O" + (y2 + 1).toString() + (e + 1).toString() + "</span>")
 				})
 				anotar("<br>")
 			}
@@ -78,15 +92,13 @@ function actualizarPasos() {
 function encontrarNuevosCentros() {
 	let t = centrosATabla();
 	anotar("<b>Paso 1</b><br>")
-	let r = encontrar(t);
+	let r = encontrar(t, 0);
 	let paso = 1;
 	while (r[1].length > 0) {
-		if (paso <= pasos) {
-			dibujarNuevosCentros(r[1], paso);
-		}
+		dibujarNuevosCentros(r[1], paso);
 		t = r[0];
 		anotar("<br><b>Paso " + (paso + 1) + "</b><br>")
-		r = encontrar(t);
+		r = encontrar(t, paso);
 		paso++;
 	}
 	tablafinal = t;
@@ -208,9 +220,10 @@ function setup() {
 	detalles.style("height", "613px")
 	detalles.style("overflow", "scroll")
 	colores = [
-		color(0,0,255),
+		color("blue"),
 		color("magenta"),
-		color(255,204,0)
+		color("teal"),
+		color("orange")
 	]
 	//botones
 	botonVista = createButton("Mover vista")
@@ -324,16 +337,18 @@ function draw() {
 		}
 	})
 	nuevoscentros.forEach(e => {
-		if (e[5] <= colores.length) {
-			stroke(colores[e[5] - 1]);
-		} else {
-			stroke(0, 0, 255);
+		if ((e[5] == undefined) || e[5] <= pasos) {
+			if (e[5] <= colores.length) {
+				stroke(colores[e[5] - 1]);
+			} else {
+				stroke(0, 0, 255);
+			}
+			noFill();
+			circle(e[0], e[1], 10);
+			noStroke();
+			fill(0, 0, 0);
+			text(e[2] + "," + e[3], e[0] - 40, e[1] + 10, 80);
 		}
-		noFill();
-		circle(e[0], e[1], 10);
-		noStroke();
-		fill(0, 0, 0);
-		text(e[2] + "," + e[3], e[0] - 40, e[1] + 10, 80);
 	});
 	stroke(0, 0, 0)
 	if (herramienta == 1) {
