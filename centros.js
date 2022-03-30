@@ -216,7 +216,8 @@ function setup() {
 	frameRate(15);
 	detalles = createDiv("Aqui aparecera como se obtuvo cada centro"
 		+"<p>Puedes cargar una imagen para realizar el ejercicio sobre esta</p>");
-	detalles.position(1040, 200)
+	detalles.parent(document.getElementById("sidebar"))
+	detalles.style("position", "relative")
 	detalles.style("border", "thin solid #000000")
 	detalles.style("width", "380px")
 	detalles.style("height", "613px")
